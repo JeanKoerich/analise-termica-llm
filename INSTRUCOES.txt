@@ -1,0 +1,30 @@
+PACOTE DE ARQUIVOS NOVOS PARA PORTFOLIO SOFTPLAN
+
+Este ZIP NÃO inclui seus scripts .py, requirements.txt, arquivos .env, nem o CSV real de ~27 MB.
+
+1) Crie uma pasta NOVA: analise-termica-llm.
+2) Extraia estes arquivos nela.
+3) Copie APENAS versões revisadas dos arquivos Python necessários do projeto atual.
+4) Copie seu requirements.txt existente (revise dependências).
+5) No novo repositório, use o conteúdo abaixo como .gitignore (ou mescle ao seu):
+
+.venv/
+venv/
+.idea/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+*.log
+data/*.csv
+!data/amostra_leituras.csv
+data/*.db
+data/*.sqlite*
+
+6) Valide com: python -m unittest discover -s tests -v
+7) Leia docs/PUBLICACAO.md antes do primeiro git push.
+
+ATENÇÃO: o README e os documentos são um MODELO que depende de conferência com o código original.

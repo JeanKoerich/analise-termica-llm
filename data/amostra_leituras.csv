@@ -1,0 +1,9 @@
+timestamp,origem,estado_processo,ciclo,temperatura_entrada,temperatura_saida,vazao_l_min,valvula_entrada,valvula_saida,nivel_tubulacao_percentual,tempo_maturacao_min,delta_t
+2026-11-09T08:00:00,simulacao,RECARREGANDO,1,22.98,23.00,0,1,0,35,0,0.02
+2026-11-09T08:01:00,simulacao,RECARREGANDO,1,22.99,23.10,0,1,0,60,0,0.11
+2026-11-09T08:02:00,simulacao,AQUECENDO,1,22.98,25.20,0,0,0,100,0,2.22
+2026-11-09T08:03:00,simulacao,AQUECENDO,1,22.98,29.10,0,0,0,100,0,6.12
+2026-11-09T08:04:00,simulacao,MATURANDO,1,22.98,31.72,0,0,0,100,1,8.74
+2026-11-09T08:05:00,simulacao,TRANSFERINDO,1,23.00,31.60,0.9,1,1,80,1,8.60
+2026-11-09T08:06:00,simulacao,TRANSFERINDO,1,23.02,31.50,1.2,1,1,60,1,8.48
+2026-11-09T08:07:00,simulacao,RECARREGANDO,2,23.10,23.20,0,1,0,45,0,0.10
