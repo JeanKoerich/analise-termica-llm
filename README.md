@@ -1,83 +1,100 @@
 # Análise Térmica Industrial com LLM
 
-> Portfólio técnico para demonstrar o uso responsável de inteligência artificial em um problema real de monitoramento industrial.
+**Aplicação em Python e Streamlit que transforma indicadores de monitoramento térmico industrial em análises e relatórios interpretativos com apoio de um modelo de linguagem (LLM).**
 
-**Status:** estrutura pública do portfólio preparada. A integração funcional com os scripts originais deve ser verificada antes de afirmar que a demonstração está pronta.
+> Projeto de portfólio desenvolvido a partir de um sistema acadêmico de monitoramento do pré-aquecimento de água industrial.
 
-## 1. Problema
+## 1. Contexto e problema
 
-O monitoramento de pré-aquecimento de água industrial produz séries temporais de temperatura, vazão e estados operacionais. Transformar essas leituras em diagnósticos interpretáveis exige tratamento de dados, indicadores e contexto do processo.
+O monitoramento de pré-aquecimento de água industrial produz registros de temperatura, vazão, energia e estados operacionais. Esses dados precisam ser tratados e contextualizados para apoiar a análise do desempenho térmico e a identificação de inconsistências.
 
-## 2. Objetivo
+A proposta é conectar **engenharia de dados, análise exploratória e IA generativa** em um único fluxo, sem atribuir ao LLM a responsabilidade pelos cálculos numéricos.
 
-Explorar o uso de um LLM para **explicar indicadores calculados previamente**, apontar anomalias e produzir um relatório técnico com rastreabilidade. O LLM não substitui o cálculo determinístico, a validação dos dados nem a supervisão humana.
+## 2. O que a aplicação implementa
+
+- **ETL:** importação de arquivos CSV ou XLSX e preparação das leituras com Python e Pandas.
+- **Análise exploratória:** consulta de indicadores, comportamento das variáveis e filtros por período.
+- **Interpretação com IA:** envio de um resumo estruturado dos indicadores à API da OpenAI para elaboração de relatórios.
+- **Relatórios:** formatos técnico, executivo e acadêmico, com exibição no Streamlit e exportação em PDF.
+
+**Status:** o fluxo de processamento e a chamada à API estão implementados no código. A execução ponta a ponta com a base de demonstração e os cenários de avaliação ainda precisam de validação; não há resultados de desempenho da IA publicados neste repositório.
 
 ## 3. Arquitetura
 
 ```mermaid
 flowchart LR
-    A[CSV ou banco de leituras] --> B[ETL e validação]
-    B --> C[Indicadores térmicos]
-    C --> D[Contexto estruturado e prompt]
-    D --> E[Modelo de linguagem]
-    E --> F[Análise textual e limitações]
-    C --> G[Streamlit]
-    F --> G
+    A[Arquivo CSV / XLSX] --> B[ETL e preparação]
+    B --> C[Dados processados]
+    C --> D[Análise exploratória]
+    C --> E[Indicadores e resumo estruturado]
+    E --> F[API OpenAI / LLM]
+    F --> G[Relatório interpretativo]
+    G --> H[Streamlit e PDF]
 ```
 
-Este é o **fluxo conceitual**. As chamadas reais entre os arquivos precisam ser confirmadas após revisar o código-fonte.
+Os indicadores são processados em Python; o LLM recebe os dados consolidados e gera **interpretação em linguagem natural**. A saída do modelo pode conter erros e deve ser revisada antes do uso para decisões operacionais.
 
-## 4. Componentes herdados
+## 4. Tecnologias
 
-| Arquivo original | Responsabilidade sugerida pelo nome (a confirmar no código) |
+| Tecnologia | Aplicação |
 | --- | --- |
-| `etl_monitoramento.py` | Leitura e preparação de dados |
-| `function_monitoramento.py` | Funções de apoio e indicadores |
-| `exploratoria_monitoramento.py` | Análise exploratória |
-| `inteligencia_monitoramento.py` | Lógica de inteligência e/ou LLM |
-| `streamlit_app.py` | Interface do usuário |
-| `teste_openai.py` | Experimento de conexão com o modelo (revisar antes de publicar) |
-| `requirements.txt` | Dependências Python |
+| Python | Processamento e lógica da aplicação |
+| Pandas | Preparação de dados e indicadores |
+| Streamlit | Interface e navegação |
+| Plotly | Visualizações da análise exploratória |
+| OpenAI API | Geração de relatórios interpretativos com LLM |
+| ReportLab | Exportação de relatórios em PDF |
 
-Os arquivos `.py` **não estão incluídos neste pacote**: copie-os apenas depois de revisar credenciais, dados sensíveis, caminhos locais e dependências.
+## 5. Organização do código
 
-## 5. Dados e demonstração
+| Arquivo | Responsabilidade |
+| --- | --- |
+| `streamlit_app.py` | Entrada da interface e navegação entre as páginas |
+| `etl_monitoramento.py` | Upload e preparação da base de dados |
+| `function_monitoramento.py` | Funções auxiliares, tratamento de dados e PDF |
+| `exploratoria_monitoramento.py` | Análise exploratória e visualizações |
+| `inteligencia_monitoramento.py` | Indicadores, construção do contexto, chamada ao LLM e exibição do relatório |
+| `requirements.txt` | Dependências do ambiente Python |
 
-`data/amostra_leituras.csv` contém **dados sintéticos**, somente para documentação, testes básicos e demonstração após adaptar a leitura do projeto. Não são dados de produção nem evidência de desempenho do sistema real.
+## 6. Execução local (Windows / PowerShell)
 
-Os cálculos térmicos devem permanecer auditáveis. Por exemplo, `delta_t = temperatura_saida - temperatura_entrada`, considerando unidades em °C.
-
-## 6. Executar em Windows (após inserir os scripts originais)
+Pré-requisitos: Python compatível com `requirements.txt` e uma chave de API válida para usar a geração de relatórios com IA.
 
 ```powershell
+# Clonar o repositório
+git clone https://github.com/JeanKoerich/analise-termica-llm.git
+cd analise-termica-llm
+
+# Preparar o ambiente
 py -m venv .venv
 .\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
+
+# Criar configuração local (não publicar credenciais)
 Copy-Item .env.example .env
-# Configure a chave no .env local (nunca publique esse arquivo)
-streamlit run streamlit_app.py
+# Preencha OPENAI_API_KEY no arquivo .env
+
+# Iniciar a aplicação
+python -m streamlit run streamlit_app.py
 ```
 
-**Atenção:** o código original pode exigir um nome/caminho específico para o CSV ou outras configurações. Se não conseguir abrir a amostra sem alterações, ajuste o caminho de leitura no código em vez de publicar o CSV real.
+Na interface, importe e processe uma base pela página **ETL** antes de acessar **Análise Exploratória** ou **Relatório com IA**. A aplicação utiliza os dados processados armazenados na sessão do Streamlit.
 
-## 7. Avaliar a IA
+**Compatibilidade dos dados:** o código atual utiliza, entre outras, a coluna `dt_registro` e medidas com prefixo `nr_`. O arquivo `data/amostra_leituras.csv` contém dados **sintéticos**, com nomes de colunas diferentes, e ainda precisa ser adaptado para demonstrar o fluxo completo. Não é uma base de produção.
 
-Consulte [`docs/AVALIACAO_IA.md`](docs/AVALIACAO_IA.md). Toda conclusão gerada pelo modelo deve ser apoiada em dados fornecidos, sem inventar medições, resultados ou economia financeira.
+**Configuração do modelo:** o identificador de modelo está definido em `MODELO_OPENAI`, no arquivo `inteligencia_monitoramento.py`. Verifique sua disponibilidade e permissões de acesso antes de executar a funcionalidade de IA.
 
-## 8. Demonstrar o resultado
+## 7. Uso responsável da IA
 
-Veja o roteiro em [`docs/DEMONSTRACAO.md`](docs/DEMONSTRACAO.md). Acrescente capturas reais e um vídeo de curta duração **somente depois de executar a aplicação**.
+- Os cálculos são realizados pela aplicação; o modelo atua na interpretação dos resultados fornecidos.
+- As respostas são geradas a partir de contexto estruturado, não de uma leitura independente dos sensores.
+- Não publicar chaves da API, dados industriais sensíveis ou arquivos `.env`.
+- Validar as conclusões geradas e distinguir dados medidos, estimativas e interpretações.
+- Revisar relatórios antes de utilizá-los em qualquer decisão operacional.
 
-## 9. Segurança e privacidade
+## 8. Origem do projeto
 
-- Nunca publique `.venv/.env`, `.venv`, `.idea`, chaves de API, senhas, IPs internos ou dados reais não autorizados.
-- Use um repositório público **novo e sem histórico importado** do projeto privado.
-- Revise os scripts e os resultados gerados por LLM antes da publicação.
-
-## 10. Relação com o TCC
-
-O monitoramento térmico é o projeto-base. Este repositório documenta a aplicação de LLM à interpretação de seus indicadores. O repositório completo do TCC pode permanecer privado.
+Este repositório reúne a camada de análise de dados e IA construída a partir do **TCC de monitoramento térmico industrial**. O projeto-base contempla a aquisição e o monitoramento de variáveis do pré-aquecimento de água; o código e a infraestrutura completos do TCC podem permanecer em repositório privado.
 
 **Autor:** Jean Koerich  
-**Contexto:** Portfólio acadêmico e profissional
+**Contexto:** Portfólio acadêmico e profissional em Engenharia de Dados e Inteligência Artificial aplicada.
